@@ -7,14 +7,20 @@ using System.Threading.Tasks;
 
 namespace Library
 {
-    public static class StartupValidator
+    public static class Startup
     {
+        /// <summary>
+        /// Setting default paths and getting current pc username 
+        /// </summary>
         private static string systemUserName = Environment.UserName;
         private static string folderPath = $@"C:\Users\{systemUserName}";
         private static string[] filePaths = Directory.GetDirectories(folderPath);
 
         public static string ContentsPath { get; private set; } = $@"{folderPath}\ListManager";
 
+        /// <summary>
+        /// Run at start to create neccessary data and folders
+        /// </summary>
         public static void Initialize()
         {
             bool fileExists = FolderExists(folderPath, filePaths);
@@ -25,10 +31,16 @@ namespace Library
             }
         }
 
+        /// <summary>
+        /// Creates directory if path does not exist
+        /// </summary>
+        /// <param name="folderPath"></param>
+        /// <param name="filePaths"></param>
+        /// <returns></returns>
         private static bool FolderExists(string folderPath, string[] filePaths)
         {
             bool output = false; ;
-            //Check if folder exists on pc
+
             foreach (string folder in filePaths)
             {
                 if (folder == $@"{folderPath}\ListManager")

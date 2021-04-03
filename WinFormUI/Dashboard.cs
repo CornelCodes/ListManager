@@ -1,4 +1,5 @@
 ﻿using Library;
+using Library.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,34 +15,61 @@ namespace WinFormUI
 {
     public partial class Dashboard : Form
     {
+        SafeInvoke _safeInvoker = new SafeInvoke();
+
         public Dashboard()
         {
             InitializeComponent();
-            displayUpdateBackgroundWorker.RunWorkerAsync();
+            UpdateDisplay();
         }
 
-        private void GetFolders()
+        private void UpdateDisplay()
         {
-            foldersListBox.DataSource = DataAccess.GetDirectoryNames();
+            SetFolders();
+            SetSubFolders();
         }
 
-        private void GetSubFolder()
+        private void SetListBox(string[] input, ListBox target)
         {
-            itemsListBox.DataSource = DataAccess.GetSubDirectoryNames(foldersListBox.SelectedItem.ToString());
-        }
-
-        private void UpdateDashboard()
-        {
-            GetFolders();
-            GetSubFolder();
-        }
-
-        private void displayUpdateBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            while (true)
+            _safeInvoker.Invoke(delegate
             {
-                UpdateDashboard();
-            }
+                target.DataSource = input;
+            });
+        }
+
+        private void SetFolders()
+        {
+            SetListBox(DataAccess.GetDirectoryNames(), foldersListBox);
+        }
+
+        private void SetSubFolders()
+        {
+            SetListBox(DataAccess.GetSubDirectoryNames(foldersListBox.SelectedItem.ToString()), itemsListBox);
+        }
+
+        private void SetContent()
+        {
+            contentsTextBox.Text = DataAccess.GetContentFromFile(itemsListBox.SelectedItem.ToString(), foldersListBox.SelectedItem.ToString());
+        }
+
+        private void foldersListBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            SetSubFolders();
+        }
+
+        private void itemsListBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            SetContent();
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            DataAccess.SaveContentToFile(contentsTextBox.Text, itemsListBox.SelectedItem.ToString(), foldersListBox.SelectedItem.ToString());
+        }
+
+        private void createFolderButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
@@ -53,3 +82,4 @@ namespace WinFormUI
  * 1.Reflection
  * 2.Make thread-safe calls to Windows Forms controls
  * 3.Threading issue
+ */

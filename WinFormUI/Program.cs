@@ -15,11 +15,10 @@ namespace WinFormUI
         [STAThread]
         static void Main()
         {
-            StartupValidator.Initialize();
+            Startup.Initialize();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Dashboard());
-
         }
        
     }

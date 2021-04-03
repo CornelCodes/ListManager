@@ -43,7 +43,7 @@ namespace WinFormUI
             this.contentsLabel = new System.Windows.Forms.Label();
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.searchButton = new System.Windows.Forms.Button();
-            this.displayUpdateBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.saveButton = new System.Windows.Forms.Button();
             this.foldersPanel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -82,6 +82,7 @@ namespace WinFormUI
             this.createFolderButton.Text = "Create Folder";
             this.createFolderButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.createFolderButton.UseVisualStyleBackColor = false;
+            this.createFolderButton.Click += new System.EventHandler(this.createFolderButton_Click);
             // 
             // foldersListBox
             // 
@@ -91,6 +92,7 @@ namespace WinFormUI
             this.foldersListBox.Name = "foldersListBox";
             this.foldersListBox.Size = new System.Drawing.Size(193, 364);
             this.foldersListBox.TabIndex = 0;
+            this.foldersListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.foldersListBox_MouseDown);
             // 
             // panel1
             // 
@@ -147,11 +149,13 @@ namespace WinFormUI
             this.itemsListBox.Name = "itemsListBox";
             this.itemsListBox.Size = new System.Drawing.Size(193, 304);
             this.itemsListBox.TabIndex = 0;
+            this.itemsListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.itemsListBox_MouseDown);
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.LightSkyBlue;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.saveButton);
             this.panel2.Controls.Add(this.contentsTextBox);
             this.panel2.Controls.Add(this.contentsLabel);
             this.panel2.Location = new System.Drawing.Point(425, 71);
@@ -196,9 +200,18 @@ namespace WinFormUI
             this.searchButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.searchButton.UseVisualStyleBackColor = false;
             // 
-            // displayUpdateBackgroundWorker
+            // saveButton
             // 
-            this.displayUpdateBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.displayUpdateBackgroundWorker_DoWork);
+            this.saveButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.saveButton.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveButton.Location = new System.Drawing.Point(192, 12);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(111, 34);
+            this.saveButton.TabIndex = 3;
+            this.saveButton.Text = "Save";
+            this.saveButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.saveButton.UseVisualStyleBackColor = false;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // Dashboard
             // 
@@ -244,7 +257,7 @@ namespace WinFormUI
         private System.Windows.Forms.TextBox contentsTextBox;
         private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.Button searchButton;
-        private System.ComponentModel.BackgroundWorker displayUpdateBackgroundWorker;
+        private System.Windows.Forms.Button saveButton;
     }
 }
 
