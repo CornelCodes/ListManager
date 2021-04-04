@@ -1,13 +1,18 @@
-﻿using Library.Utilities;
+﻿using Library.Data;
+using Library.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Library
 {
+    /// <summary>
+    /// Contains all the methods which set and provide data
+    /// </summary>
     public static class DataAccess
     {
         /// <summary>
@@ -16,6 +21,8 @@ namespace Library
         static string[] directories;
         static string[] subDirectories;
         static string[] files;
+
+        static DataManager dataManager = new DataManager();
 
         /// <summary>
         /// Gets the directory names without extensions which go to the form
@@ -70,15 +77,16 @@ namespace Library
             Logger.LogNormal($@"Getting sub directories from {Startup.ContentsPath}\{fileName}");
         }
 
-        private static void GetFilesFrom(string fileName)
+        private static void GetItemsFrom(string fileName)
         {
             files = Directory.GetFiles($@"{Startup.ContentsPath}\{fileName}");
             Logger.LogNormal($@"Getting sub directories from {Startup.ContentsPath}\{fileName}");
         }
 
-        public static string[] GetFileNames(string selectedFile = "")
+        //Gets the user friendly file names to display in the ListBox
+        public static string[] GetItemNames(string selectedFile = "")
         {
-            GetFilesFrom(selectedFile);
+            GetItemsFrom(selectedFile);
             string[] output = new string[files.Length];
             for (int i = 0; i < files.Length; i++)
             {
@@ -96,17 +104,24 @@ namespace Library
             string path = $@"{Startup.ContentsPath}\{parentDirectory}\{fileName}\{fileName}.txt";
             if (File.Exists(path))
             {
-                //If it exists get text data
-                if(fileLocked == false)
+                bool isLocked = true;
+                while (isLocked)
                 {
-                    fileText = File.ReadAllLines(path);
+                    try
+                    {
+                        fileText = File.ReadAllLines(path);
+                        isLocked = false;
+                    }
+                    catch (Exception)
+                    {
+                        isLocked = true;
+                    }
                 }
             }
             else
             {
                 //If text file doesnt exist create it
                 File.Create(path);
-
                 for (int i = 0; i < 3; i++)
                 {
                     try
@@ -136,12 +151,44 @@ namespace Library
 
         public static void SaveContentToFile(string content, string fileName, string parentDirectory)
         {
-            File.WriteAllText($@"{Startup.ContentsPath}\{parentDirectory}\{fileName}\{fileName}.txt", content);
+            bool isLocked = true;
+            while (isLocked)
+            {
+                try
+                {
+                    File.WriteAllText($@"{Startup.ContentsPath}\{parentDirectory}\{fileName}\{fileName}.txt", content);
+                    isLocked = false;
+                }
+                catch (Exception)
+                {
+                    isLocked = true;
+                }
+            }
         }
 
+        /// <summary>
+        /// Creates a directory with the given folderName and validates the folders
+        /// </summary>
+        /// <param name="folderName"></param>
         public static void CreateFolder(string folderName)
         {
+            //Check if folder with same name exists
+            if (Directory.Exists($@"{Startup.ContentsPath}\{folderName}"))
+            {
+                Logger.LogWarning($@"Folder: {folderName} already exist in {Startup.ContentsPath}");
+            }
+            else
+            {
+
+                Logger.LogNormal($"Creating folder {folderName}");
+            }
 
         }
+
+        public static void AddItem(string itemName)
+        {
+            dataManager.CreateItem(itemName, Models.ListItem.Type.Item);
+        }
+        
     }
 }

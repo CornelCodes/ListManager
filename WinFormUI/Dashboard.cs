@@ -15,18 +15,26 @@ namespace WinFormUI
 {
     public partial class Dashboard : Form
     {
+        /// <summary>
+        /// Used to safely invoke a controls properties on the form from another thread
+        /// </summary>
         SafeInvoke _safeInvoker = new SafeInvoke();
 
         public Dashboard()
         {
             InitializeComponent();
+            //Add continous loop to UpdateDisplay on another thread and not locking the UI
             UpdateDisplay();
         }
 
-        private void UpdateDisplay()
+        /// <summary>
+        /// Updates the display with the folders
+        /// </summary>
+        public void UpdateDisplay()
         {
+            //Gets the folders and items in the root to display in the list boxes
             SetFolders();
-            SetSubFolders();
+            SetItemsOnDisplay();
         }
 
         private void SetListBox(string[] input, ListBox target)
@@ -37,12 +45,13 @@ namespace WinFormUI
             });
         }
 
+
         private void SetFolders()
         {
             SetListBox(DataAccess.GetDirectoryNames(), foldersListBox);
         }
 
-        private void SetSubFolders()
+        private void SetItemsOnDisplay()
         {
             SetListBox(DataAccess.GetSubDirectoryNames(foldersListBox.SelectedItem.ToString()), itemsListBox);
         }
@@ -54,7 +63,7 @@ namespace WinFormUI
 
         private void foldersListBox_MouseDown(object sender, MouseEventArgs e)
         {
-            SetSubFolders();
+            SetItemsOnDisplay();
         }
 
         private void itemsListBox_MouseDown(object sender, MouseEventArgs e)
@@ -69,7 +78,19 @@ namespace WinFormUI
 
         private void createFolderButton_Click(object sender, EventArgs e)
         {
+            Form createFolderForm = new CreateFolder();
+            this.Enabled = false;
+            createFolderForm.Enabled = true;
+            createFolderForm.Show();
+        }
 
+        private void addItemButton_Click(object sender, EventArgs e)
+        {
+            Form addItemForm = new CreateFolder();
+            this.Enabled = false;
+            addItemForm.Enabled = true;
+            addItemForm.Text = "Add Item";
+            addItemForm.Show();
         }
     }
 }

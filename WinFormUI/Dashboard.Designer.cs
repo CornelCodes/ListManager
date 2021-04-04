@@ -39,11 +39,11 @@ namespace WinFormUI
             this.addItemButton = new System.Windows.Forms.Button();
             this.itemsListBox = new System.Windows.Forms.ListBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.saveButton = new System.Windows.Forms.Button();
             this.contentsTextBox = new System.Windows.Forms.TextBox();
             this.contentsLabel = new System.Windows.Forms.Label();
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.searchButton = new System.Windows.Forms.Button();
-            this.saveButton = new System.Windows.Forms.Button();
             this.foldersPanel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -140,6 +140,7 @@ namespace WinFormUI
             this.addItemButton.Text = "Add Item";
             this.addItemButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.addItemButton.UseVisualStyleBackColor = false;
+            this.addItemButton.Click += new System.EventHandler(this.addItemButton_Click);
             // 
             // itemsListBox
             // 
@@ -162,6 +163,19 @@ namespace WinFormUI
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(322, 419);
             this.panel2.TabIndex = 3;
+            // 
+            // saveButton
+            // 
+            this.saveButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.saveButton.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveButton.Location = new System.Drawing.Point(192, 12);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(111, 34);
+            this.saveButton.TabIndex = 3;
+            this.saveButton.Text = "Save";
+            this.saveButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.saveButton.UseVisualStyleBackColor = false;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // contentsTextBox
             // 
@@ -199,19 +213,6 @@ namespace WinFormUI
             this.searchButton.Text = "Search";
             this.searchButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.searchButton.UseVisualStyleBackColor = false;
-            // 
-            // saveButton
-            // 
-            this.saveButton.BackColor = System.Drawing.Color.Gainsboro;
-            this.saveButton.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveButton.Location = new System.Drawing.Point(192, 12);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(111, 34);
-            this.saveButton.TabIndex = 3;
-            this.saveButton.Text = "Save";
-            this.saveButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.saveButton.UseVisualStyleBackColor = false;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // Dashboard
             // 
